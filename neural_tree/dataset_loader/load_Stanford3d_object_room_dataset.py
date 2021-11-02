@@ -5,6 +5,7 @@ Graph dataset (https://3dscenegraph.stanford.edu/).
 from neural_tree.h_tree import generate_jth, generate_node_labels
 import torch
 import torch_geometric.utils as pyg_utils
+from torch_geometric.data import Data
 import networkx as nx
 import pickle
 import random
@@ -13,12 +14,18 @@ import random
 class StanfordDataset:
     def __init__(self, dataset_file_path):
         with open(dataset_file_path, 'rb') as input_file:
-            dataset, label_conversion_dict, num_labels = pickle.load(input_file)
-        self.num_node_features = dataset[0].x.shape[1]
+            dataset_dict, label_conversion_dict, num_labels = pickle.load(input_file)
+        self.num_node_features = dataset_dict['x_list'][0].shape[1]
         self.num_classes = num_labels
         self.label_conversion_dict = label_conversion_dict
         self.name = 'Stanford_room_objects'
-        self.__dataset = dataset
+        self.__dataset = []
+        for i in range(len(dataset_dict['x_list'])):
+            self.__dataset.append(Data(x=torch.tensor(dataset_dict['x_list'][i]),
+                                       y=torch.tensor(dataset_dict['y_list'][i]),
+                                       edge_index=torch.tensor(dataset_dict['edge_index_list'][i]),
+                                       object_mask=torch.tensor(dataset_dict['object_mask_list'][i]),
+                                       room_mask=torch.tensor(dataset_dict['room_mask_list'][i])))
         self.add_label_mask()
 
     def __getitem__(self, item):

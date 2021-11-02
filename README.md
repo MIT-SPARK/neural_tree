@@ -20,7 +20,6 @@ pip install torch-geometric
 ```
 We have tested this code repo on a Ubuntu 18.04 machine with PyTorch versions 1.6.0, 1.8.0, and PyTorch Geometric 2.0.1 with CUDA 10.1.
 Check this [link](https://pytorch.org/get-started/previous-versions/) for different PyTorch installation options and this [link](https://github.com/benedekrozemberczki/pytorch_geometric_temporal) for PyTorch Geometric.
-Note that our preprocessed scene graph dataset might not work with other PyTorch Geometric versions.
 
 ### Other dependencies
 We used [TensorboardX](https://tensorboardx.readthedocs.io/en/latest/index.html) for visualizing training progress, 
